@@ -121,6 +121,64 @@ authentication-related attacks. There may be authentication weaknesses if the ap
 * Does not correctly invalidate Session IDs. User sessions or authentication tokens aren't properly invalidated during
   logout or a period of inactivity.
 
+##### 7. Software and Data Integrity Failures
+
+This category focuses on making assumptions related to software updates, critical data, and CI/CD pipelines without
+verifying integrity. Notable Common Weaknesses Enumerations (CWEs) include Inclusion of Functionality from Untrusted
+Control Sphere, Download of COde Without Integrity Check and Deserialization of Untrusted Data
+
+Prevention include:
+
+* Using digital signatures or similar mechanisms to verify the software or data is from the expected source and has not
+  been altered.
+* Ensure libraries and dependencies, such as npm or Maven, are consuming trusted repositories.
+* Ensure that a software supply chain security tool, such as OWASP Dependency Check or OWASP CycloneDX, is used to
+  verify that components do not contain known vulnerabilities.
+* Ensure that there is a review process for code and configuration changes to minimize the chance that malicious code or
+  configuration could be introduced into your software pipeline.
+* Ensure that your CI/CD pipeline has proper segregation, configuration, and access control to ensure the integrity of
+  the code
+
+##### 8. Security Logging and Monitoring Failures
+
+This category is to help detect, escalate and respond to active breaches. Without logging and monitoring, breaches can
+go undetected. Insufficient logging, detection, monitoring, and active response occurs any time:
+
+* Auditable events, such as logins, failed logins, and high-value transactions, are not logged.
+* Warning and errors generate no, inadequate, or unclear log messages.
+* Logs of applications and APIs are not monitored for suspicious activity.
+* Logs are only stored locally.
+* Appropriate alerting thresholds and response escalation processes are not in place or effective.
+* Penetration testing and scans by dynamic application security testing (DAST) tools do not trigger alerts.
+* The application cannot detect, escalate, or alert for active attacks in real-time or near real-time.
+
+##### 9. Server-Side Request Forgery (SSRF)
+
+SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL. This
+allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected
+by a firewall, VPN, or another type of network access control list (ACL)
+
+Prevention can be done in the various network layers as follows:
+
+###### Network layer
+
+* Segment remote resource access functionality in separate networks to reduce the impact of SSRF
+* Enforce "deny by default" firewall policies or network access control rules to block all but essential intranet
+  traffic
+
+###### Application layer
+
+* Sanitize and validate all client-supplied input data
+* Enforce teh URL schema, port, and destination with a positive allow list
+* Do not send raw responses to clients
+* Disable HTTP redirections
+* Be aware of the URL consistency to avoid attacks such as DNS rebinding and "time of check, time of use" race
+  conditions.
+
+
+
+
+
 
 
 
